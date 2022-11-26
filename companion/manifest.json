@@ -15,7 +15,7 @@
 	],
 	"runtime": {
 		"type": "node14",
-		"api": "socket.io",
+		"api": "node-ipc",
 		"apiVersion": "0.0.0",
 		"entrypoint": "../main.js"
 	},
