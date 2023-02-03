@@ -1,20 +1,20 @@
 module.exports = function (self) {
 	self.setActionDefinitions({
-		sample_action: {
-			name: 'My First Action',
+		flex_mute: {
+			name: 'Flex Channel mute',
 			options: [
 				{
-					id: 'num',
+					id: 'flexchnl_mute',
 					type: 'number',
-					label: 'Test',
+					label: 'Flex Channel',
 					default: 5,
-					min: 0,
-					max: 100,
+					min: 1,
+					max: 17,
 				},
 			],
-			callback: async (event) => {
-				console.log('Hello world!', event.options.num)
-			},
+			/*callback: async (event) => {
+				console.log('Hello world!', event.options.flexchnl_mute)
+			},*/
 		},
 	})
 }

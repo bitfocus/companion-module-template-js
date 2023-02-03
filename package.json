@@ -1,7 +1,8 @@
 {
-	"name": "your-module-name",
+	"name": "lz-osc",
 	"version": "0.1.0",
 	"main": "main.js",
+	"type": "module",
 	"scripts": {
 		"format": "prettier -w ."
 	},

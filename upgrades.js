@@ -1,4 +1,4 @@
-module.exports = [
+export function UpgradeScripts() { }
 	/*
 	 * Place your upgrade scripts here
 	 * Remember that once it has been added it cannot be removed!
@@ -10,4 +10,4 @@ module.exports = [
 	// 		updatedFeedbacks: [],
 	// 	}
 	// },
-]
+
