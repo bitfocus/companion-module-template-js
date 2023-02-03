@@ -1,7 +1,7 @@
 {
-	"id": "your-module-name",
-	"name": "your-module-name",
-	"shortname": "module-shortname",
+	"id": "lz-osc",
+	"name": "Globcon interface",
+	"shortname": "lz-osc",
 	"description": "A short one line description of your module",
 	"version": "0.0.0",
 	"license": "MIT",
@@ -9,8 +9,8 @@
 	"bugs": "https://github.com/bitfocus/companion-module-your-module-name/issues",
 	"maintainers": [
 		{
-			"name": "Your name",
-			"email": "Your email"
+			"name": "Loren Zimmer",
+			"email": "lorenjz@gmail.com"
 		}
 	],
 	"runtime": {
@@ -20,7 +20,7 @@
 		"entrypoint": "../main.js"
 	},
 	"legacyIds": [],
-	"manufacturer": "Your company",
-	"products": ["Your product"],
-	"keywords": []
+	"manufacturer": "DirectOut",
+	"products": ["Globcon"],
+	"keywords": ["Prodigy.MP"]
 }
