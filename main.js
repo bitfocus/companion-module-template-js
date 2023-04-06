@@ -58,7 +58,6 @@ class ModuleInstance extends InstanceBase {
 	updateVariableDefinitions() {
 		UpdateVariableDefinitions(this)
 	}
-	
 }
 
 runEntrypoint(ModuleInstance, UpgradeScripts)
