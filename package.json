@@ -3,7 +3,8 @@
 	"version": "0.1.0",
 	"main": "main.js",
 	"scripts": {
-		"format": "prettier -w ."
+		"format": "prettier -w .",
+		"package": "companion-module-build"
 	},
 	"license": "MIT",
 	"repository": {
@@ -11,10 +12,10 @@
 		"url": "git+https://github.com/bitfocus/companion-module-your-module-name.git"
 	},
 	"dependencies": {
-		"@companion-module/base": "~1.5.1"
+		"@companion-module/base": "~1.7.0"
 	},
 	"devDependencies": {
-		"@companion-module/tools": "^1.4.1"
+		"@companion-module/tools": "^1.4.2"
 	},
 	"prettier": "@companion-module/tools/.prettierrc.json"
 }
