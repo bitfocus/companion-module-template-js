@@ -15,34 +15,47 @@
 		
 		
 		for (let i = 0; i < 33; i++) {
-			let newname = "flexmute" + i +"status"
+			let newname = "flex_channel" + i +"status"
 			//console.log(newname);
 
 			variables.push({
 				name: `Flex Channel ` + i +  ` Mute Status`,
 				//variableId: [newname],
-				variableId: "flexmute" + i + "status",
+				variableId: "flex_channel" + i + "status",
 			})
 
 
 			this.setVariableValues({ [newname]: "init" });
 			//this.setVariableValues({ [anotherstring]: "Unmuted" });
-			//console.log(`variable ${[newname]} value:  ${this.getVariableValue([newname])}`);
+			console.log(`variable ${[newname]} value:  ${this.getVariableValue([newname])}`);
 		}
 		
 
 		for (let i = 0; i < 17; i++) {
-			var newname = "groupmute" + i +"status"
+			var newname = "group" + i +"status"
 
 
 			variables.push({
 				name: 'Group Mute ' + i + 'Status',
-				variableId: "groupmute" +i + "status",
+				variableId: "group" +i + "status",
 			})
 
 
 			this.setVariableValues({ [newname]: "init"});
 			
+		}
+		for (let i = 0; i < 9; i++) {
+			var newname = "MtxMaster" + i + "status"
+
+
+			variables.push({
+				name: 'MtxMaster Mute ' + i + 'Status',
+				variableId: "MtxMasterMute" + i + "status",
+			})
+
+
+			this.setVariableValues({ [newname]: "init" });
+
 		}
 		
 		variables.push({

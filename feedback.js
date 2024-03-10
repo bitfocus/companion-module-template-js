@@ -44,10 +44,10 @@ export function getFeedbacks(){
 		options: [{
 			type: 'dropdown',
 			label: 'Select mute:',
-			choices: [{ id: 'flexmute', label: 'Flex Channel Mute' },
+			choices: [{ id: 'flex_channel', label: 'Flex Channel Mute' },
 				{ id: 'group', label: 'Group Mute' }, ],
 			id: 'chnltype',
-			default: 'flexmute'
+			default: 'flex_channel'
 		},
 			{
 				type: 'number',
@@ -57,31 +57,26 @@ export function getFeedbacks(){
 			}
 		],
 		callback: (feedback) => {
-			//console.log(feedback);
-
-
-			console.log(`the feedback channel number is:  ${feedback.options.chno}`)
+			
 			var ch = feedback.options.chno
-			//console.log(`altmute is ${this.altmute[ch]}`);
-			//console.log(`the channel string is:  ${ch}`);
-			var type = feedback.options.flexmute1status
-			//console.log(`the type string is:  ${type}`);
-			let myvar = [type] + [ch] + 'status'
-			//console.log(`the command string is:  ${myvar}`);
-			//console.log(`the value of the command string is:  ${[myvar]}`);
-			var testing = this.flexmute1status;
+			var chtype = feedback.options.chnltype
+			console.log(`Feedback ch type:  ${chtype}`)
+			
 			if (feedback.options.chnltype === 'group') {
-				console.log('channel type is group')
+				//console.log('channel type is group')
+				console.log(`${feedback.options.chnltype} channel ${ch} is ${this.groupmute[ch]}`)
+
 				if (this.groupmute[ch] == 'Muted') {
 					return true;
-					console.log('feedback returned true')
+					//console.log('feedback returned true')
 				} else {
 					return false;
-					console.log('feedback returned false')
+					//console.log('feedback returned false')
 				}
 			}
-			if (feedback.options.chnltype === 'flexmute') {
-				console.log('channel type is flex channel')
+			if (feedback.options.chnltype === 'flex_channel') {
+				//console.log('channel type is flex channel')
+				console.log(`${feedback.options.chnltype} channel ${ch} is ${this.flexmute[ch]}`)
 				if (this.flexmute[ch] == 'Muted') {
 					return true;
 					console.log('feedback returned true')
@@ -97,6 +92,44 @@ export function getFeedbacks(){
 		
 	}
 
+	feedbacks['groupfadestatus'] = {
+
+
+		type: 'boolean',
+		name: 'Group Fade Feedback',
+		defaultStyle: {
+			// The default style change for a boolean feedback
+			// The user will be able to customise these values as well as the fields that will be changed
+			bgcolor: combineRgb(27, 126, 155),
+			color: combineRgb(0, 0, 0),
+		},
+		// options is how the user can choose the condition the feedback activates for
+		options: [
+		{
+			type: 'number',
+			label: 'Group Number',
+			id: 'grpfadno',
+			default: 1,
+		}
+		],
+		callback: (feedback) => {
+			console.log(feedback);
+			var ch = feedback.options.grpfadno
+			console.log(`feedback group channel is ${ch}`);
+			if (this.groupfade[ch] === "in") {
+				return false;
+			} else {
+				return true;
+            }
+
+
+			console.log(`the feedback channel number is:  ${feedback.options.chno}`)
+			var ch = feedback.options.grpfadno
+			
+			
+		}
+
+    }
 		
 		return feedbacks;
 }

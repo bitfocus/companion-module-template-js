@@ -59,8 +59,9 @@ class ModuleInstance extends InstanceBase {
 			let setvar = "flexmute" + i + "status"
 			this.setVariableValues({ [setvar]: " " });
 		}
-		this.flexmute = {};
-		this.groupmute = {};
+		this.flexmute = [];
+		this.groupmute = [];
+		this.groupfade = [];
 		console.log("variables set")
 	}
 
@@ -98,7 +99,8 @@ class ModuleInstance extends InstanceBase {
 
 	updateActions() {
 		const sendOscMessage = (path, args) => {
-			this.log('debug', `Sending OSC ${this.config.host}:${this.config.send_port} ${path}`)
+			
+			this.log('debug', `Sending OSC ${this.config.host}:${this.config.send_port} ${path} ${JSON.stringify(args) }`)
 			this.oscSend(this.config.host, this.config.send_port, path, args)
 		}
 
@@ -127,12 +129,13 @@ class ModuleInstance extends InstanceBase {
 				],
 				callback: async (event) => {
 					var num = await this.parseVariablesInString(event.options.flexchnl_mute);
-					const path = (`/flexmute/${num}`);
+					const path = (`/settings/flex_channel/${num}/mute`);
 					const float = await this.parseVariablesInString(event.options.float);
-					var whoami = 'flexmute' + num + 'status';
+					var whoami = 'flex_channel' + num + 'status';
+					console.log(`whoami is:  ${whoami}`);
 					var currstat = this.getVariableValue(whoami);
 					if (currstat == 'Muted') {
-						//console.log('if then thinks we are muted');
+						console.log('if then thinks we are muted');
 						this.setVariableValues({ [whoami]: 'Unmuted', });
 						this.flexmute[num] = "Unmuted";
 						sendOscMessage(path, [
@@ -142,9 +145,10 @@ class ModuleInstance extends InstanceBase {
 							},
 
 						])
+						console.log(`message sent?`);
 					}
 					if (currstat == 'Unmuted') {
-						//console.log('if then thinks we are Unmuted');
+						console.log('if then thinks we are Unmuted');
 						this.setVariableValues({ [whoami]: 'Muted', });
 						this.flexmute[num] = "Muted";
 						
@@ -155,9 +159,10 @@ class ModuleInstance extends InstanceBase {
 							},
 
 						])
+						console.log(`message sent?`);
 					}
 					if (currstat == " ") {
-						//console.log("whoami not defined");
+						console.log("whoami not defined");
 						this.setVariableValues({ [whoami]: 'Muted', });
 						this.flexmute[num] = "Muted";
 						sendOscMessage(path, [
@@ -167,10 +172,11 @@ class ModuleInstance extends InstanceBase {
 							},
 
 						])
+						console.log(`did we send stuff?`)
                     }
 					this.checkFeedbacks('flexmutestatus');
 
-					//this.parseVariablesInString(event.options.flexmutestatus);
+					this.parseVariablesInString(event.options.flexmutestatus);
 
 
 					
@@ -202,15 +208,16 @@ class ModuleInstance extends InstanceBase {
 				callback: async (event) => {
 					
 					var num = await this.parseVariablesInString(event.options.group_mute);
-					const path = (`/groupmute/${num}`);
+					const path = (`/settings/group/channel/${num}/mute`);
 					const float = await this.parseVariablesInString(event.options.group_float)
-					var whoami = 'flexmute' + num + 'status';
+					var whoami = 'group' + num + 'status';
 					var currstat = this.getVariableValue(whoami);
+					console.log(`currstat is:  ${currstat}`)
 					if (currstat == 'Unmuted') {
-						//console.log('if then thinks we are Unmuted');
+						console.log('if then thinks we are Unmuted');
 						this.setVariableValues({ [whoami]: 'Muted', });
-						this.groupmute[num] = "Muted";
-
+						//this.group_mute[num] = "Muted";
+						console.log(`Sending`);
 						sendOscMessage(path, [
 							{
 								type: 'f',
@@ -218,11 +225,13 @@ class ModuleInstance extends InstanceBase {
 							},
 
 						])
+						console.log(`group sent command?`)
 					}
 					if (currstat == 'Muted') {
-						
+						console.log('if then thinks we are Muted');
 						this.setVariableValues({ [whoami]: 'Unmuted', });
-						this.groupmute[num] = "Unmuted";
+						//this.group_mute[num] = "Unmuted";
+						console.log(`Sending`);
 						sendOscMessage(path, [
 							{
 								type: 'f',
@@ -230,11 +239,13 @@ class ModuleInstance extends InstanceBase {
 							},
 
 						])
+						console.log(`group sent command?`)
 					}
-					if (currstat == " ") {
-						//console.log("whoami not defined");
+					if (currstat == "") {
+						console.log('if then thinks we are Not Defined');;
 						this.setVariableValues({ [whoami]: 'Muted', });
-						this.groupmute[num] = "Muted";
+						//this.group_mute[num] = "Muted";
+						console.log(`Sending`);
 						sendOscMessage(path, [
 							{
 								type: 'f',
@@ -242,6 +253,7 @@ class ModuleInstance extends InstanceBase {
 							},
 
 						])
+						console.log(`group sent command?`)
 					}
 					this.parseVariablesInString(event.options.group_mute)
 					this.checkFeedbacks('flexmutestatus');
@@ -258,8 +270,96 @@ class ModuleInstance extends InstanceBase {
 
 				},
 			},
+
+
+			MtxMaster_mute: {
+				name: 'Matrix Mixer Master mute',
+				options: [
+					{
+						id: 'MtxMaster_mute',
+						type: 'number',
+						label: 'Matrix Master Mute',
+						default: 1,
+						min: 1,
+						max: 16,
+					},
+					{
+						id: 'MtxMixer_Number',
+						type: 'number',
+						label: 'Matrix Mixer Number',
+						default: 1,
+						min: 1,
+						max: 16,
+					},
+					{
+						type: 'textinput',
+						label: 'Value',
+						id: 'MtxMaster_float',
+						default: 1,
+						useVariables: true,
+					},
+
+				],
+				callback: async (event) => {
+
+					var num = await this.parseVariablesInString(event.options.MtxMaster_mute);
+					var mixnum = await this.parseVariablesInString(event.options.MtxMixer_Number);
+					const path = (`/settings/mixer/${mixnum}/master/${num}/mute`);
+					const float = await this.parseVariablesInString(event.options.MtxMaster_float)
+					var whoami = 'MtxMasterMute' + num + 'status';
+					var currstat = this.getVariableValue(whoami);
+					console.log(`whoami is:  ${whoami}`)
+					console.log(`currstat is:  ${currstat}`)
+					if (currstat == 'Unmuted') {
+						console.log('if then thinks we are Unmuted');
+						this.setVariableValues({ [whoami]: 'Muted', });
+						console.log(`Sending`);
+						sendOscMessage(path, [
+							{
+								type: 'f',
+								value: 1,
+							},
+
+						])
+						console.log(`MtxMaster sent command?`)
+					}
+					if (currstat == 'Muted') {
+						console.log('if then thinks we are Muted');
+						this.setVariableValues({ [whoami]: 'Unmuted', });
+						console.log(`Sending`);
+						sendOscMessage(path, [
+							{
+								type: 'f',
+								value: 0,
+							},
+
+						])
+						console.log(`MtxMaster sent command?`)
+					}
+					if (currstat == "") {
+						console.log('if then thinks we are Not Defined');;
+						this.setVariableValues({ [whoami]: 'Muted', });
+						console.log(`Sending`);
+						sendOscMessage(path, [
+							{
+								type: 'f',
+								value: 1,
+							},
+
+						])
+						console.log(`MtxMaster sent command?`)
+					}
+					this.parseVariablesInString(event.options.MtxMaster_mute)
+					this.checkFeedbacks('flexmutestatus');
+
+
+
+				},
+			},
+
+
 			layout_trigger: {
-				name: 'Layout Trigger',
+				name: 'Generic Trigger',
 				options: [
 					
 					
@@ -281,6 +381,72 @@ class ModuleInstance extends InstanceBase {
 						},
 
 					])
+				},
+			},
+
+			Fade_trigger: {
+				name: 'Group Fade Trigger',
+				options: [
+					{
+						id: 'group_fade',
+						type: 'number',
+						label: 'Group Fade number',
+						default: 1,
+						min: 1,
+						max: 16,
+					},
+					{
+						type: 'textinput',
+						label: 'Value',
+						id: 'group_fade_float',
+						default: 1,
+						//regex: Regex.SIGNED_FLOAT,
+						useVariables: true,
+					},
+				],
+				callback: async (event) => {
+					
+					var num = event.options.group_fade;
+					console.log(`current fade status is ${this.groupfade[num]}`)
+					console.log(`fade button for group ${num} was pressed`)
+					const path = (`/groupfade/${num}`);
+					
+					if (this.groupfade[num] === 'in') {
+						console.log("we need to change to out")
+						this.groupfade[num] = "out";
+						console.log(`sending fade out message`)
+						sendOscMessage(path, [
+							{
+								type: 'f',
+								value: 1,
+							},
+						])
+					} else if (this.groupfade[num] === 'out') {
+						console.log("we need to change to in")
+						this.groupfade[num] = "in";
+						console.log(`sending fade in message`)
+						sendOscMessage(path, [
+							{
+								type: 'f',
+								value: 0,
+							},
+						])
+					}
+					if (typeof (this.groupfade[num]) == "undefined") {
+						console.log("we don't have a group fade variable assigned");
+						this.groupfade[num] = "out";
+						sendOscMessage(path, [
+							{
+								type: 'f',
+								value: 1,
+							},
+						])
+					}
+
+					this.checkFeedbacks('groupfadestatus');
+
+
+					
 				},
 			},
 
@@ -352,9 +518,13 @@ class ModuleInstance extends InstanceBase {
 		let args = message.args
 		
 		var mutestatus = message.args[0].value;
-		if (address.includes('flexmute') || address.includes('groupmute')){
+		if (address.includes('flex_channel') || address.includes('group')) {
+			console.log(`starting processFlexmute`)
 			this.processFlexMute(address, mutestatus);
 
+		}
+		if (address.includes('groupfade')) {
+			this.processFade(address, mutestatus);
         }
 	}
 
@@ -366,19 +536,40 @@ class ModuleInstance extends InstanceBase {
 		
 		console.log(`args is: ${args}`);
 		//i is the channel number of the incomming osc command
-		let i = Number(addyarray[2]);
-		console.log(`i is ${i}`);
+		const addylength = addyarray.length;
+		console.log(`Address Length is:  ${addylength}`)
 
-		var mutestring = addyarray[1] + [i] + "status";
-
-		var chtype = addyarray[1];
-		console.log(`mutestring is equal to ${mutestring} `);
 		var anotherstring = "myvar"
+		var mutestring;
+		var chtype;
+		var i;
+
+		if (addylength == 5) {
+			i = addyarray[3];
+			console.log(`i is ${i}`);
+
+			mutestring = addyarray[2] + [i] + "status";
+
+			chtype = addyarray[2];
+			console.log(`addyarray[2] is: ${addyarray[2]}`);
+			console.log(`mutestring is equal to ${mutestring} `);
+
+
+		} else {
+			i = addyarray[4];
+			console.log(`i is ${i}`);
+
+			mutestring = addyarray[2] + [i] + "status";
+
+			chtype = addyarray[2];
+			console.log(`addyarray[2] is: ${addyarray[2]}`);
+			console.log(`mutestring is equal to ${mutestring} `);
+        }
 		
 		//this[mutestring] = args;
 		if (args === 1) {
 			//this.setVariableValues([mutestring], "Muted");
-			if (chtype === "flexmute") {
+			if (chtype == "flex_channel") {
 				console.log(`a flex channel sent this message`)
 				this.flexmute[i] = "Muted"
 			} else {
@@ -388,9 +579,9 @@ class ModuleInstance extends InstanceBase {
 			
 			this.setVariableValues({ [mutestring]: "Muted" });
 			this.setVariableValues({ [anotherstring]: "Unmuted" });
-			console.log(`Flex Channel ${i} is:  ${this.getVariableValue(mutestring)}`);
+			//console.log(`Flex Channel ${i} is:  ${this.getVariableValue(mutestring)}`);
 		} else {
-			if (chtype === "flexmute") {
+			if (chtype === "flex_channel") {
 				console.log(`a flex channel sent this message`)
 				this.flexmute[i] = "Unuted"
 			} else {
@@ -400,11 +591,55 @@ class ModuleInstance extends InstanceBase {
 			
 			this.setVariableValues({ [mutestring]: "Unmuted" });
 			this.setVariableValues({ [anotherstring]: "Muted" });
-			console.log(`Flex Channel ${i} is:  ${this.getVariableValue(mutestring) }`);
+			//console.log(`Flex Channel ${i} is:  ${this.getVariableValue(mutestring) }`);
 		}
 		this.checkFeedbacks('flexmutestatus');
-		//this.checkFeedbacks(mutestring);
-		//console.log(`Flex Mute channel ${i} is ${args}`);
+
+	}
+
+	processFade(address, args) {
+		console.log(`processing fade:  ${address}`);
+		const addyarray = address.split("/");
+		
+
+		console.log(`args is: ${args}`);
+		//i is the channel number of the incomming osc command
+		let i = Number(addyarray[2]);
+		console.log(`i is ${i}`);
+		console.log(`Group fade variable is: ${this.groupfade[i]}`)
+		if (typeof(this.groupfade[i]) == "undefined") {
+			console.log("we don't have a group fade variable assigned");
+			if (args == '1') {
+				this.groupfade[i] = "out";
+			}
+			if(args == '0')	{
+				this.groupfade[i] = "in";
+            }
+			
+			//1
+		}
+		if (args == '1'){
+			this.groupfade[i] = 'out'
+		}
+		if (args == '0') {
+			this.groupfade[i] = 'in'
+
+		}
+		this.checkFeedbacks('groupfadestatus');
+
+
+	}
+
+
+	pollprodigy() {
+		const path = (`/pollallvalues/`);
+		sendOscMessage(path, [
+			{
+				type: 'f',
+				value: 1,
+			},
+
+		])
     }
 
 	
