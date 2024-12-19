@@ -12,12 +12,12 @@
 		"url": "git+https://github.com/bitfocus/companion-module-your-module-name.git"
 	},
 	"dependencies": {
-		"@companion-module/base": "~1.11.0"
+		"@companion-module/base": "~1.11.2"
 	},
 	"devDependencies": {
-		"@companion-module/tools": "^2.1.0",
-		"prettier": "^3.3.3"
+		"@companion-module/tools": "^2.1.1",
+		"prettier": "^3.4.2"
 	},
 	"prettier": "@companion-module/tools/.prettierrc.json",
-	"packageManager": "yarn@4.4.1"
+	"packageManager": "yarn@4.5.3"
 }
