@@ -57,7 +57,8 @@ body:
         - Browser:
         - Companion Version:
         - Module Version:
-        - Device Firmware Version:
+        - Device Firmware/Software Version (If applicable):
+        - Device Model (If applicable):
       render: markdown
     validations:
       required: false
