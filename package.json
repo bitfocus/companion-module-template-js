@@ -1,7 +1,7 @@
 {
 	"name": "your-module-name",
 	"version": "0.1.0",
-	"main": "main.js",
+	"main": "src/main.js",
 	"scripts": {
 		"format": "prettier -w .",
 		"package": "companion-module-build"
