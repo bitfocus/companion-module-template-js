@@ -16,11 +16,11 @@
 		"yarn": "^4"
 	},
 	"dependencies": {
-		"@companion-module/base": "~1.14.1"
+		"@companion-module/base": "~2.0.4"
 	},
 	"devDependencies": {
-		"@companion-module/tools": "^2.6.1",
-		"prettier": "^3.7.4"
+		"@companion-module/tools": "^3.0.1",
+		"prettier": "^3.8.3"
 	},
 	"prettier": "@companion-module/tools/.prettierrc.json",
 	"packageManager": "yarn@4.12.0"
