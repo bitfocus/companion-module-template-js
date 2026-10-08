@@ -12,7 +12,7 @@
 		"url": "git+https://github.com/bitfocus/companion-module-your-module-name.git"
 	},
 	"engines": {
-		"node": "^22.20",
+		"node": "^26",
 		"yarn": "^4"
 	},
 	"dependencies": {
