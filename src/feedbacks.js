@@ -1,4 +1,4 @@
-module.exports = function (self) {
+export function UpdateFeedbacks(self) {
 	self.setFeedbackDefinitions({
 		sample_feedback: {
 			name: 'Example Feedback',

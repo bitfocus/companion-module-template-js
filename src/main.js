@@ -1,10 +1,12 @@
-const { InstanceBase, Regex, InstanceStatus } = require('@companion-module/base')
-const UpgradeScripts = require('./upgrades')
-const UpdateActions = require('./actions')
-const UpdateFeedbacks = require('./feedbacks')
-const UpdateVariableDefinitions = require('./variables')
+import { InstanceBase, Regex, InstanceStatus } from '@companion-module/base'
+import { UpgradeScripts } from './upgrades.js'
+import { UpdateActions } from './actions.js'
+import { UpdateFeedbacks } from './feedbacks.js'
+import { UpdateVariableDefinitions } from './variables.js'
 
-module.exports = class ModuleInstance extends InstanceBase {
+export { UpgradeScripts }
+
+export default class ModuleInstance extends InstanceBase {
 	constructor(internal) {
 		super(internal)
 	}
@@ -59,5 +61,3 @@ module.exports = class ModuleInstance extends InstanceBase {
 		UpdateVariableDefinitions(this)
 	}
 }
-
-module.exports.UpgradeScripts = UpgradeScripts
