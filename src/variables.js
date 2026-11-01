@@ -1,4 +1,4 @@
-module.exports = function (self) {
+export function UpdateVariableDefinitions(self) {
 	self.setVariableDefinitions({
 		variable1: { name: 'My first variable' },
 		variable2: { name: 'My second variable' },
