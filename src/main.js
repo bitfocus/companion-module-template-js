@@ -1,10 +1,10 @@
-const { InstanceBase, Regex, runEntrypoint, InstanceStatus } = require('@companion-module/base')
+const { InstanceBase, Regex, InstanceStatus } = require('@companion-module/base')
 const UpgradeScripts = require('./upgrades')
 const UpdateActions = require('./actions')
 const UpdateFeedbacks = require('./feedbacks')
 const UpdateVariableDefinitions = require('./variables')
 
-class ModuleInstance extends InstanceBase {
+module.exports = class ModuleInstance extends InstanceBase {
 	constructor(internal) {
 		super(internal)
 	}
@@ -60,4 +60,4 @@ class ModuleInstance extends InstanceBase {
 	}
 }
 
-runEntrypoint(ModuleInstance, UpgradeScripts)
+module.exports.UpgradeScripts = UpgradeScripts
